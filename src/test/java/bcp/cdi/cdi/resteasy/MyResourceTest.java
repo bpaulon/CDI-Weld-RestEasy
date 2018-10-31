@@ -12,9 +12,9 @@ import org.jboss.weld.junit5.auto.AddPackages;
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.junit.jupiter.api.Test;
 
+import bcp.cdi.conf.ApplicationResources;
 import bcp.cdi.model.City;
 import bcp.cdi.resource.CityController;
-import bcp.cdi.service.ApplicationResources;
 import bcp.cdi.service.CityService;
 
 @EnableAutoWeld

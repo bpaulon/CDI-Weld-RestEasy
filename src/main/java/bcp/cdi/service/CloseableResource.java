@@ -1,7 +1,9 @@
 package bcp.cdi.service;
 
+import static bcp.cdi.util.LogUtil.CONSTRUCTOR_MSG;
+import static bcp.cdi.util.LogUtil.identity;
+
 import java.io.Closeable;
-import static bcp.cdi.util.LogUtil.*;
 import java.io.IOException;
 
 import javax.enterprise.context.RequestScoped;
@@ -12,17 +14,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CloseableResource implements Closeable {
 
-  public CloseableResource () {
-    log.debug("/// Constructor {} ", identity(this));
-  }
-  
-  public void doSomething() {
-    //log.debug("doSomething()");
-  }
-  
-  @Override
-  public void close() throws IOException {
-    //log.debug("--> Closed: {}", identity(this));
-  }
+	public CloseableResource() {
+		log.debug(CONSTRUCTOR_MSG, identity(this));
+	}
+
+	public void doSomething() {
+	}
+
+	@Override
+	public void close() throws IOException {
+	}
 
 }

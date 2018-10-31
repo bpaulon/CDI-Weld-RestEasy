@@ -14,9 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ValidationExceptionHandler implements ExceptionMapper<ResteasyViolationException> {
 
-  @Override
-  public Response toResponse(ResteasyViolationException e) {
-    log.error("Validation error:", e);
-    return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).type(MediaType.APPLICATION_JSON).build();
-  }
+	@Override
+	public Response toResponse(ResteasyViolationException e) {
+		log.error("Validation error:", e);
+		return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).type(MediaType.APPLICATION_JSON).build();
+	}
 }

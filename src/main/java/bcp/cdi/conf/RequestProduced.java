@@ -1,4 +1,4 @@
-package bcp.cdi.service;
+package bcp.cdi.conf;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

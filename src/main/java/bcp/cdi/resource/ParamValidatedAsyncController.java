@@ -8,13 +8,18 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 
+/**
+ * Parameter validation example for asynchronous services
+ * 
+ * @author bogdan_paulon
+ */
 @RequestScoped
 @Path("asyncValidation")
 public class ParamValidatedAsyncController {
 
-  @GET
-  public void asyncValidation(@QueryParam("param") @NotEmpty String param, @Suspended AsyncResponse response) {
-    response.resume(param);
-  }
+	@GET
+	public void asyncValidation(@QueryParam("param") @NotEmpty String param, @Suspended AsyncResponse response) {
+		response.resume(param);
+	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import bcp.cdi.model.City;
 
 public interface ICityService {
-    
-    public List<City> findAll();
+
+	public List<City> findAll();
+
 }
