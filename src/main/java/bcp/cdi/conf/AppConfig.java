@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import static bcp.cdi.util.LogUtil.identity;
 import static bcp.cdi.util.LogUtil.*;
 
-@ApplicationPath("rest")
+@ApplicationPath("")
 @Slf4j
 public class AppConfig extends Application {
 

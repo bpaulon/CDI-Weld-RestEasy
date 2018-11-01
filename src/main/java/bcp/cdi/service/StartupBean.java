@@ -1,7 +1,8 @@
 package bcp.cdi.service;
 
-import static bcp.cdi.util.LogUtil.*;
-import static bcp.cdi.conf.ConfigurationKeys.*;
+import static bcp.cdi.conf.ConfigurationKeys.KEY_NAME_01;
+import static bcp.cdi.util.LogUtil.POSTCONSTRUCT_MSG;
+import static bcp.cdi.util.LogUtil.identity;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -21,17 +22,17 @@ public class StartupBean {
 	@ConfigValue(KEY_NAME_01)
 	String stringValue;
 
-	@PostConstruct
-	public void postConstruct() {
-		log.debug(CONSTRUCTOR_MSG, stringValue);
-	}
-
 	public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
-		log.debug("Initialized with {}:{} - init obj:{}", KEY_NAME_01, stringValue, identity(init));
+		log.debug("ApplicationScoped initialized with {}:{} - init obj:{}", KEY_NAME_01, stringValue, identity(init));
 	}
 
 	public void destroy(@Observes @Destroyed(ApplicationScoped.class) Object init) {
-		log.debug("Destroyed event {}", init);
+		log.debug("ApplicationScoped destroyed event {}", init);
+	}
+	
+	@PostConstruct
+	public void postConstruct() {
+		log.debug(POSTCONSTRUCT_MSG, identity(this));
 	}
 
 }

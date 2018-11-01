@@ -31,7 +31,8 @@ public class UserService {
 
 	@PreDestroy
 	public void destroy() {
-		log.debug(PREDESTROY_MSG, identity(this));
+		logDestroyEvent(this, this);
+		log.debug(PREDESTROY_MSG, identity(this));;
 	}
 
 }

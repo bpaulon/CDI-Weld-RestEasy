@@ -1,5 +1,7 @@
 package bcp.cdi.conf;
 
+import static bcp.cdi.conf.ConfigurationKeys.KEY_NAME_01;
+import static bcp.cdi.util.LogUtil.identity;
 import static bcp.cdi.util.LogUtil.*;
 
 import java.io.IOException;
@@ -42,7 +44,7 @@ public class ApplicationResources {
 
 	public void disposeUserService(@RequestProduced @Disposes UserService us) {
 		us.close();
-		log.debug(LogUtil.DISPOSED_MSG, identity(us));
+		logDestroyEvent(this, us);
 	}
 
 	@Produces
@@ -57,9 +59,9 @@ public class ApplicationResources {
 		try {
 			resource.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			// IGNORE
 		}
-		log.debug(LogUtil.DISPOSED_MSG, identity(resource));
+		logDestroyEvent(this, resource);
 	}
 
 	@Produces
@@ -72,7 +74,7 @@ public class ApplicationResources {
 
 	public void destroyExecutorService(@Disposes ExecutorService es) {
 		es.shutdown();
-		log.debug(LogUtil.DISPOSED_MSG, identity(es));
+		logDestroyEvent(this, es);
 	}
 
 	
@@ -85,19 +87,19 @@ public class ApplicationResources {
         // This could potentially return a null, so the function is annotated @Dependent to avoid a WELD error.
         Map<String, String> configMap = new HashMap<>();
 		// This is a dummy initialization, do something constructive here
-		configMap.put("string.value", "This is a test value");
+		configMap.put(KEY_NAME_01, ">>Test value<<");
 		
         return configMap.get(configValue.value());
     }
 	
 	@PostConstruct
 	public void postConstruct() {
-		log.debug("/// PostConstruct {}", identity(this));
+		log.debug(POSTCONSTRUCT_MSG, identity(this));
 	}
 
 	@PreDestroy
 	public void destroy() {
-		log.debug(PREDESTROY_MSG, identity(this));
+		logDestroyEvent(this, this);
 	}
 
 }

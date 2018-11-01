@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RequestScoped
 @Slf4j
-@Path("")
+@Path("async")
 public class AsyncController {
 
 	@Inject
@@ -99,5 +99,6 @@ public class AsyncController {
 	@PreDestroy
 	public void destroy() {
 		log.debug(PREDESTROY_MSG, identity(this));
+		logDestroyEvent(this, this);
 	}
 }

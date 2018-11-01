@@ -26,24 +26,24 @@ public class AsyncProcessor<T> {
 	private ExecutorService executor;
 
 	@Inject
-	private BoundRequestContext requestContext;
+	private BoundRequestContext context;
 
 	public Future<T> doit(Callable<T> command) {
 
 		return executor.submit(() -> {
-			log.debug("Submitting command");
+			log.debug("Submitting command in context {}", identity(context));
 			// activate RequestContext for this thread
-			requestContext.associate(Maps.newHashMap());
-			requestContext.activate();
+			context.associate(Maps.newHashMap());
+			context.activate();
 			try {
 				return command.call();
 			} finally {
 				// deactivate the context to destroy or dispose the beans. Cleaning
 				// up ensures the request scoped beans are created new
-				log.debug("Deactivating context: {}", identity(requestContext));
-				requestContext.invalidate();
-				requestContext.deactivate();
-				((AbstractManagedContext) requestContext).cleanup();
+				log.debug("Deactivating context: {}", identity(context));
+				context.invalidate();
+				context.deactivate();
+				((AbstractManagedContext) context).cleanup();
 			}
 		});
 	}

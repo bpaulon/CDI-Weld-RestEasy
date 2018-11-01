@@ -14,10 +14,10 @@ import bcp.cdi.service.Logged;
 import lombok.extern.slf4j.Slf4j;
 
 /** 
- * Interceptor which logs the parameters and the result. The interceptors have 
- * de
+ * Interceptor which logs the parameters and the result. Interceptors have 
+ * Dependent scope 
+ * 
  * @author bogdan_paulon
- *
  */
 @Logged
 @Interceptor
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LogInterceptor {
 
 	public LogInterceptor() {
-		log.debug(CONSTRUCTOR_MSG, identity(this));
+		logConstructorEvent(log, this);
 	}
 
 	@AroundInvoke
@@ -40,6 +40,6 @@ public class LogInterceptor {
 
 	@PreDestroy
 	public void destroy() {
-		log.debug(PREDESTROY_MSG, identity(this));
+		logDestroyEvent(log, this);
 	}
 }

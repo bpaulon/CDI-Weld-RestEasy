@@ -1,6 +1,6 @@
 package bcp.cdi.conf;
 
-import static bcp.cdi.util.LogUtil.identity;
+import static bcp.cdi.util.LogUtil.*;
 import static bcp.cdi.util.LogUtil.inspectThreadLocal;
 
 import java.io.IOException;
@@ -36,10 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WeldCleanupFilter implements Filter {
 
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-		// NOP
-	}
+	@Inject
+	private BeanManager beanManager;
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -53,20 +51,17 @@ public class WeldCleanupFilter implements Filter {
 		try {
 			chain.doFilter(request, response);
 		} finally {
+			logBeansInAllScopes();
 			if (request.isAsyncStarted()) {
 				// FIX Tomcat issue: http://weld.cdi-spec.org/documentation/#8
 				// It will forcedly invalidate the context to cleanup
-				inspectThreadLocal();
+				// inspectThreadLocal();
 				destroyContexts();
-				inspectThreadLocal();
-
+				//inspectThreadLocal();
 			}
 			log.debug("Weld cleanup filter END {} isAsync:{}", request, request.isAsyncStarted());
 		}
 	}
-
-	@Inject
-	private BeanManager beanManager;
 
 	private void destroyContexts() {
 		try {
@@ -103,6 +98,14 @@ public class WeldCleanupFilter implements Filter {
 	@Inject
 	ServletContext sc;
 
+	/** 
+	 * Sending a RequestDestroy Event here does not invalidate the contexts. 
+	 * Lifecycle methods don't get called - only the ThreadLocalMap gets
+	 * cleaned up.
+	 * 
+	 * @param request
+	 * @throws Exception
+	 */
 	private void fireRequestDestroyed(ServletRequest request) throws Exception {
 
 		Object obj = ((WeldClientProxy) sc).getMetadata().getContextualInstance();
@@ -118,6 +121,12 @@ public class WeldCleanupFilter implements Filter {
 		stdctxt.fireRequestDestroyEvent(request);
 	}
 
+
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		// NOP
+	}
+	
 	@Override
 	public void destroy() {
 		// NOP
