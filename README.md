@@ -19,10 +19,11 @@ in Servers->Tomcat ->General Information->Open Launch Configuration ->Arguments 
 ### Enable WELD development mode
 Add to web.xml
 
-```<context-param>
-        <param-name>org.jboss.weld.development</param-name>
-        <param-value>true</param-value>
-    </context-param>
+```
+<context-param>
+    <param-name>org.jboss.weld.development</param-name>
+    <param-value>true</param-value>
+</context-param>
 ```
     
 
