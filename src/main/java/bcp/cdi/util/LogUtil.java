@@ -1,5 +1,7 @@
 package bcp.cdi.util;
 
+import static java.util.stream.Collectors.joining;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -19,13 +21,12 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.util.AnnotationLiteral;
 
-import org.apache.log4j.Level;
 import org.slf4j.Logger;
+import org.slf4j.spi.LocationAwareLogger;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import static java.util.stream.Collectors.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
@@ -70,10 +71,6 @@ public class LogUtil {
 	@SuppressWarnings("serial")
 	private static void logIfFoundInContext(Class<?> source, Class<? extends Annotation> scope, Object obj) {
 
-		// Use the log4j logger directly to make this class a wrapper. The logger
-		// will filter from the stack-trace the lines corresponding to this class
-		org.apache.log4j.Logger callerLog = org.apache.log4j.Logger.getLogger(source);
-
 		BeanManager bm = CDI.current().getBeanManager();
 		Set<Bean<?>> beans = bm.getBeans(Object.class, new AnnotationLiteral<Any>() {
 		});
@@ -83,8 +80,8 @@ public class LogUtil {
 					.map(ctxt::get)
 					.anyMatch(instance -> instance == obj);
 			if (found) {
-				callerLog.log(LogUtil.class.getCanonicalName(), Level.DEBUG,
-				        "--> DISPOSED " + identity(obj) + " in context: " + identity(ctxt), (Throwable) null);
+				((LocationAwareLogger)log).log(null, LogUtil.class.getName(), LocationAwareLogger.DEBUG_INT, 
+						"--> DISPOSED " + identity(obj) + " in context: " + identity(ctxt), null, (Throwable) null);
 			}
 		} catch (ContextNotActiveException e) {
 			// In case we don't have an active request scope. The application scope should

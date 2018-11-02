@@ -2,7 +2,6 @@ package bcp.cdi.service;
 
 import static bcp.cdi.util.LogUtil.CONSTRUCTOR_MSG;
 import static bcp.cdi.util.LogUtil.identity;
-import static bcp.cdi.util.LogUtil.logConstructorEvent;
 import static bcp.cdi.util.LogUtil.logDestroyEvent;
 
 import java.io.Closeable;
