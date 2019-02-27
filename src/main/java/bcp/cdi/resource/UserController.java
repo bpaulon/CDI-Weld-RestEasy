@@ -1,5 +1,6 @@
 package bcp.cdi.resource;
 
+import static bcp.cdi.conf.ConfigurationKeys.KEY_NAME_01;
 import static bcp.cdi.util.LogUtil.CONSTRUCTOR_MSG;
 import static bcp.cdi.util.LogUtil.identity;
 import static bcp.cdi.util.LogUtil.logConstructorEvent;
@@ -16,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import bcp.cdi.conf.ConfigValue;
 import bcp.cdi.conf.RequestProduced;
 import bcp.cdi.service.Logged;
 import bcp.cdi.service.UserService;
@@ -45,7 +47,7 @@ public class UserController {
 	private UserService usDependent;
 
 	@Inject
-	public UserController(UserService us) {
+	public UserController(UserService us, @ConfigValue(KEY_NAME_01) String configValue) {
 		this.usDependent = us;
 		log.debug(CONSTRUCTOR_MSG, identity(this));
 		logConstructorEvent(log, this);
@@ -72,7 +74,8 @@ public class UserController {
 	@Path("/request")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String callRequestScopedService() {
+	@Inject
+	public String callRequestScopedService(@ConfigValue(KEY_NAME_01) String configValue) {
 		usRequest.doSomething();
 		return "DONE " + LocalDateTime.now();
 	}
