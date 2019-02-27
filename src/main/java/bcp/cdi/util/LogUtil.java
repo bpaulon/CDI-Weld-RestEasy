@@ -44,9 +44,10 @@ public class LogUtil {
 
 	public static String currentContextIdentity() {
 		BeanManager bm = CDI.current().getBeanManager();
-		AlterableContext context = (AlterableContext) bm.getContext(RequestScoped.class);
+		Context context = bm.getContext(RequestScoped.class);
 		
 		return identity(context);
+		
 	}
 	
 	public static void logConstructorEvent(Logger log, Object obj) {
@@ -75,7 +76,7 @@ public class LogUtil {
 		Set<Bean<?>> beans = bm.getBeans(Object.class, new AnnotationLiteral<Any>() {
 		});
 		try {
-			AlterableContext ctxt = (AlterableContext) bm.getContext(scope);
+			Context ctxt =  bm.getContext(scope);
 			boolean found = beans.stream()
 					.map(ctxt::get)
 					.anyMatch(instance -> instance == obj);
