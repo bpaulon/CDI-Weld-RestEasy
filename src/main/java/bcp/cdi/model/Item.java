@@ -4,29 +4,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.LockModeType;
+import javax.persistence.NamedQuery;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+@NamedQuery(name="lockItem",
+query="SELECT i FROM item i WHERE i.name LIKE :itemName",
+lockMode = LockModeType.PESSIMISTIC_WRITE)
 
 @Data
-@Entity(name="item")
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor
+@Entity(name = "item")
 public class Item {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GEN")
-  @SequenceGenerator(name = "SEQ_GEN", sequenceName = "ITEM_SEQ", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
-  
+
   String name;
 
-  Integer quantity;
-  
-  
+  int quantity;
+
 }
