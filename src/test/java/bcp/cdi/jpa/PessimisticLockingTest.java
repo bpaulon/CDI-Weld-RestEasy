@@ -69,7 +69,7 @@ public class PessimisticLockingTest {
   @Test
   public void testShouldUpdateCorrectlyWhenItemLocked() throws InterruptedException, ExecutionException {
 
-    Callable<Item> call1 = () -> incrementQuantity(1L, 1000);
+    Callable<Item> call1 = () -> incrementQuantity(1L, 3000);
     Callable<Item> call2 = () -> incrementQuantity(1L, 0);
 
     // start execution in parallel
@@ -100,16 +100,4 @@ public class PessimisticLockingTest {
     }
   }
   
-  
-  private void screenshot(int id) {
-
-    Query query = em.createQuery("from Item where id =: id");
-    query.setParameter("id", id);
-    query.setLockMode(LockModeType.PESSIMISTIC_WRITE);
-    query.getResultList();
-    
-    Item item = em.find(Item.class, 1L);
-    em.lock(item, LockModeType.OPTIMISTIC_FORCE_INCREMENT);
-    
-  }
 }
