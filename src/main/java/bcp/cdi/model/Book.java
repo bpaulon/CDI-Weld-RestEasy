@@ -19,6 +19,8 @@ public class Book {
   
   String title;
   
-  @OneToOne(fetch = FetchType.LAZY, mappedBy = "book")
+  // remove the relation to fix 1+N problem or use optional=false if
+  // the relation always exists
+  @OneToOne(fetch = FetchType.LAZY, mappedBy = "book"/*, optional=false*/)
   BookToc toc;
 }

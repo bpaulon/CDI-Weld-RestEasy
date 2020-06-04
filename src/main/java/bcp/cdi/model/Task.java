@@ -15,7 +15,7 @@ import lombok.Data;
 
 @NamedQuery(name="Task.findTaskByTitle" , 
       query=" SELECT t " 
-          + " FROM taks t"
+          + " FROM task t"
           + " WHERE t.title LIKE :title")
 @Data
 @Entity(name = "task")

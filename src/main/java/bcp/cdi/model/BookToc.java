@@ -14,13 +14,14 @@ import lombok.ToString;
 public class BookToc {
 
   @Id
-  @Column(name = "book_id")
+  @Column(name = "book_id") // remove for @MapsId
   Long id;
 
   String content;
   
   @ToString.Exclude
   @OneToOne
+  //@MapsId
   @JoinColumn(name = "book_id")
   Book book;
   
