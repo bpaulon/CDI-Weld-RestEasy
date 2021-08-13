@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="topic_r22_lth_5pb">
+    <title>Title</title>
+    <body>
+        <p><?oxy_comment_start author="p4admin" timestamp="20210531T161626+0300" comment="q
+e
+rt
+gf
+f"?><?oxy_comment_start author="p4admin" timestamp="20210531T161054+0300" comment="aaaa
+b
+c
+d
+d
+" mid="1"?>pjj<?oxy_comment_end?></p>
+        <p>j</p>
+        <p>ddd</p>
+        <p>1<?oxy_comment_end mid="1"?></p>
+        <p>p2</p>
+        <p>p3</p>
+        <p>p4</p>
+        <p/>
+    </body>
+</topic>
